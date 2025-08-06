@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[STOP] 우리들 클랜</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap');
+
+    body {
+        margin: 0;
+        font-family: 'Oswald', sans-serif;
+        background-color: #000;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    /* 배너 */
+    .top-banner {
+        background: linear-gradient(90deg, #FFD700, #FF8C00);
+        color: black;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 1rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+        box-shadow: 0 0 10px rgba(255,215,0,0.8);
+    }
+
+    /* 패럴랙스 배경 */
+    .header {
+        height: 100vh;
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                    url('https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20250708/KO0YfZ0l.png') no-repeat center/cover;
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .clan-tag {
+        font-size: 1.5rem;
+        color: #FFD700;
+        margin-bottom: 10px;
+        letter-spacing: 3px;
+        text-shadow: 0 0 10px rgba(255,215,0,0.8);
+    }
+
+    /* 로고 텍스트 */
+    .logo-text {
+        font-size: 2rem;
+        color: white;
+        padding: 5px 15px;
+        border: 2px solid white;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+        text-shadow: 0 0 5px rgba(255,255,255,0.8);
+    }
+
+    h1 {
+        font-size: 4rem;
+        margin: 0;
+        color: #FFD700;
+        text-shadow: 0 0 20px rgba(255,215,0,0.9);
+    }
+
+    p {
+        font-size: 1.3rem;
+        color: #ddd;
+        margin-top: 20px;
+        max-width: 700px;
+        line-height: 1.6;
+    }
+
+    /* 버튼 */
+    .discord-btn {
+        position: relative;
+        background: linear-gradient(90deg, #5865F2, #4752C4);
+        color: white;
+        padding: 15px 40px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 0 20px rgba(88, 101, 242, 0.8);
+        transition: all 0.3s ease;
+        margin-top: 30px;
+        overflow: hidden;
+    }
+
+    .discord-btn:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(88, 101, 242, 1);
+    }
+
+    /* 버튼 클릭 파동 효과 */
+    .discord-btn::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255,255,255,0.4);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
+    }
+
+    .discord-btn.clicked::after {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+    }
+
+    /* 아래 정보 섹션 */
+    .info {
+        background: #111;
+        padding: 50px 20px;
+        text-align: center;
+    }
+
+    .info h2 {
+        font-size: 2rem;
+        color: #FFD700;
+        margin-bottom: 20px;
+    }
+
+    .info p {
+        font-size: 1.1rem;
+        color: #bbb;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    /* 푸터 */
+    footer {
+        background: #000;
+        color: #888;
+        text-align: center;
+        padding: 15px 0;
+        font-size: 0.9rem;
+        border-top: 1px solid #222;
+    }
+</style>
+</head>
+<body>
+
+<!-- 상단 배너 -->
+<div class="top-banner">
+    🎯 배린이도 환영! 즐겁게 치킨 먹는 [STOP] 우리들 클랜 🎯
+</div>
+
+<!-- 헤더 -->
+<div class="header">
+    <div class="clan-tag">[STOP]</div>
+    <div class="logo-text">CANTSTOP</div>
+    <h1>우리들 클랜</h1>
+    <p>빡겜보단 즐겜! 초보부터 고수까지 누구나 함께하는 PUBG 클랜.<br>
+       함께 웃고, 함께 싸우며, 치킨의 기쁨을 나누는 곳입니다!</p>
+    <a href="https://discord.gg/mgxvac9t" class="discord-btn" target="_blank">디스코드 참여하기</a>
+</div>
+
+<!-- 정보 섹션 -->
+<div class="info">
+    <h2>우리들 클랜 소개</h2>
+    <p>
+        [STOP] 우리들은 배틀그라운드 실력보다 즐기는 마음을 더 소중히 생각합니다.<br>
+        초보자도, 오랜 유저도 모두가 함께 웃으며 즐길 수 있는 분위기를 만들고 있습니다.<br>
+        매일 치킨을 향한 가벼운 발걸음, 함께 하실래요?
+    </p>
+</div>
+
+<!-- 푸터 -->
+<footer>
+    &copy; 2025 CANTSTOP
+</footer>
+
+<script>
+    // 버튼 클릭 시 파동 효과
+    const btn = document.querySelector('.discord-btn');
+    btn.addEventListener('click', function(e) {
+        btn.classList.remove('clicked');
+        void btn.offsetWidth; // 리플레이를 위해 강제 리렌더
+        btn.classList.add('clicked');
+    });
+</script>
+
+</body>
+</html>
