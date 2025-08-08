@@ -1,198 +1,303 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[STOP] 우리들 클랜</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>[STOP] 우리들 클랜 - 배경 슬라이드</title>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap');
 
-    body {
-        margin: 0;
-        font-family: 'Oswald', sans-serif;
-        background-color: #000;
-        color: white;
-        overflow-x: hidden;
-    }
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body, html {
+    height: 100%;
+    font-family: 'Oswald', sans-serif, Arial, sans-serif;
+    overflow-x: hidden;
+    background: #000;
+    color: white;
+  }
 
-    /* 배너 */
-    .top-banner {
-        background: linear-gradient(90deg, #FFD700, #FF8C00);
-        color: black;
-        text-align: center;
-        padding: 10px 0;
-        font-size: 1rem;
-        font-weight: bold;
-        letter-spacing: 1px;
-        box-shadow: 0 0 10px rgba(255,215,0,0.8);
-    }
+  /* 상단 배너 */
+  .top-banner {
+    background: linear-gradient(90deg, #FFD700, #FF8C00);
+    color: black;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(255,215,0,0.8);
+    z-index: 10;
+    position: relative;
+  }
 
-    /* 패럴랙스 배경 */
-    .header {
-        height: 100vh;
-        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                    url('https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20250708/KO0YfZ0l.png') no-repeat center/cover;
-        background-attachment: fixed;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 20px;
-    }
+  /* 슬라이드 컨테이너 */
+  .slideshow {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-    .clan-tag {
-        font-size: 1.5rem;
-        color: #FFD700;
-        margin-bottom: 10px;
-        letter-spacing: 3px;
-        text-shadow: 0 0 10px rgba(255,215,0,0.8);
-    }
+  /* 슬라이드 각 배경 */
+  .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    filter: brightness(0.6); /* 흐림 */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+  }
+  .slide.active {
+    opacity: 1;
+  }
 
-    /* 로고 텍스트 */
-    .logo-text {
-        font-size: 2rem;
-        color: white;
-        padding: 5px 15px;
-        border: 2px solid white;
-        border-radius: 6px;
-        margin-bottom: 20px;
-        letter-spacing: 2px;
-        text-shadow: 0 0 5px rgba(255,255,255,0.8);
-    }
+  /* 배경 위 텍스트 영역 */
+  .header-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    padding: 0 20px;
+    width: 90%;
+    max-width: 800px;
+    color: white;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9);
+  }
 
-    h1 {
-        font-size: 4rem;
-        margin: 0;
-        color: #FFD700;
-        text-shadow: 0 0 20px rgba(255,215,0,0.9);
-    }
+  .clan-tag {
+    font-size: 1.3rem;
+    color: #FFD700;
+    margin-bottom: 10px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(255,215,0,0.8);
+    font-weight: 700;
+  }
 
-    p {
-        font-size: 1.3rem;
-        color: #ddd;
-        margin-top: 20px;
-        max-width: 700px;
-        line-height: 1.6;
-    }
+  .logo-text {
+    font-size: 2rem;
+    color: white;
+    padding: 5px 8px; /* 좌우 패딩 줄임 */
+    border: 2px solid white;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(255,255,255,0.8);
+    font-weight: 700;
+    display: inline-block; /* 추가 */
+  }
 
-    /* 버튼 */
-    .discord-btn {
-        position: relative;
-        background: linear-gradient(90deg, #5865F2, #4752C4);
-        color: white;
-        padding: 15px 40px;
-        font-size: 1.2rem;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        text-decoration: none;
-        box-shadow: 0 0 20px rgba(88, 101, 242, 0.8);
-        transition: all 0.3s ease;
-        margin-top: 30px;
-        overflow: hidden;
-    }
+  h1 {
+    font-size: 4rem;
+    margin: 0;
+    color: #FFD700;
+    text-shadow: 0 0 20px rgba(255,215,0,0.9);
+    font-weight: 700;
+  }
 
-    .discord-btn:hover {
-        transform: scale(1.08);
-        box-shadow: 0 0 30px rgba(88, 101, 242, 1);
-    }
+  p {
+    font-size: 1.3rem;
+    color: #ddd;
+    margin-top: 20px;
+    line-height: 1.6;
+  }
 
-    /* 버튼 클릭 파동 효과 */
-    .discord-btn::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: rgba(255,255,255,0.4);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
-    }
+  /* 디스코드 버튼 */
+  .discord-btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #5865F2, #4752C4);
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 0 20px rgba(88, 101, 242, 0.8);
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    overflow: hidden;
+    font-weight: 700;
+  }
+  .discord-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 30px rgba(88, 101, 242, 1);
+  }
+  .discord-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
+  }
+  .discord-btn.clicked::after {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
 
-    .discord-btn.clicked::after {
-        width: 300px;
-        height: 300px;
-        opacity: 0;
-    }
+  /* 좌우 화살표 */
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3.5rem;
+    color: white;
+    background: rgba(0,0,0,0.4);
+    padding: 12px;
+    cursor: pointer;
+    z-index: 15;
+    user-select: none;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+  .arrow:hover {
+    background: rgba(0,0,0,0.7);
+  }
+  .prev {
+    left: 20px;
+  }
+  .next {
+    right: 20px;
+  }
 
-    /* 아래 정보 섹션 */
-    .info {
-        background: #111;
-        padding: 50px 20px;
-        text-align: center;
-    }
+  /* 정보 섹션 */
+  .info {
+    background: #111;
+    padding: 50px 20px;
+    text-align: center;
+    color: #bbb;
+  }
+  .info h2 {
+    font-size: 2rem;
+    color: #FFD700;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  .info p {
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
 
-    .info h2 {
-        font-size: 2rem;
-        color: #FFD700;
-        margin-bottom: 20px;
-    }
-
-    .info p {
-        font-size: 1.1rem;
-        color: #bbb;
-        max-width: 700px;
-        margin: 0 auto;
-        line-height: 1.6;
-    }
-
-    /* 푸터 */
-    footer {
-        background: #000;
-        color: #888;
-        text-align: center;
-        padding: 15px 0;
-        font-size: 0.9rem;
-        border-top: 1px solid #222;
-    }
+  /* 푸터 */
+  footer {
+    background: #000;
+    color: #888;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    border-top: 1px solid #222;
+    font-weight: 400;
+  }
 </style>
 </head>
 <body>
 
 <!-- 상단 배너 -->
 <div class="top-banner">
-    🎯 배린이도 환영! 즐겁게 치킨 먹는 [STOP] 우리들 클랜 🎯
+  🎯 배린이도 환영! 즐겁게 치킨 먹는 [STOP] 우리들 클랜 🎯
 </div>
 
-<!-- 헤더 -->
-<div class="header">
+<!-- 슬라이드 컨테이너 -->
+<div class="slideshow">
+  <div class="slide active" style="background-image: url('https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20250708/KO0YfZ0l.png');"></div>
+  <div class="slide" style="background-image: url('https://i.imgur.com/iIOgyyn.jpeg');"></div>
+  <div class="slide" style="background-image: url('https://i.imgur.com/oVXI8xS.jpeg');"></div>
+  <div class="slide" style="background-image: url('https://i.imgur.com/asp51FH.jpeg');"></div>
+  <div class="slide" style="background-image: url('https://i.imgur.com/I4izUqn.jpeg');"></div>
+
+  <!-- 좌우 화살표 -->
+  <div class="arrow prev">&#10094;</div>
+  <div class="arrow next">&#10095;</div>
+
+  <!-- 텍스트 내용 -->
+  <div class="header-content">
     <div class="clan-tag">[STOP]</div>
     <div class="logo-text">CANTSTOP</div>
     <h1>우리들 클랜</h1>
-    <p>빡겜보단 즐겜! 초보부터 고수까지 누구나 함께하는 PUBG 클랜.<br>
-       함께 웃고, 함께 싸우며, 치킨의 기쁨을 나누는 곳입니다!</p>
+    <p>빡겜보단 즐겜! 초보부터 고수까지 누구나 함께하는 PUBG 클랜.<br>함께 웃고, 함께 싸우며, 치킨의 기쁨을 나누는 곳입니다!</p>
     <a href="https://discord.gg/ppQY5AtZrs" class="discord-btn" target="_blank">디스코드 참여하기</a>
+  </div>
 </div>
 
 <!-- 정보 섹션 -->
 <div class="info">
-    <h2>우리들 클랜 소개</h2>
-    <p>
-        [STOP] 우리들은 배틀그라운드 실력보다 즐기는 마음을 더 소중히 생각합니다.<br>
-        초보자도, 오랜 유저도 모두가 함께 웃으며 즐길 수 있는 분위기를 만들고 있습니다.<br>
-        매일 치킨을 향한 가벼운 발걸음, 함께 하실래요?
-    </p>
+  <h2>우리들 클랜 소개</h2>
+  <p>
+    [STOP] 우리들은 배틀그라운드 실력보다 즐기는 마음을 더 소중히 생각합니다.<br>
+    초보자도, 오랜 유저도 모두가 함께 웃으며 즐길 수 있는 분위기를 만들고 있습니다.<br>
+    매일 치킨을 향한 가벼운 발걸음, 함께 하실래요?
+  </p>
 </div>
 
 <!-- 푸터 -->
 <footer>
-    &copy; 2025 CANTSTOP
+  &copy; 2025 CANTSTOP
 </footer>
 
 <script>
-    // 버튼 클릭 시 파동 효과
-    const btn = document.querySelector('.discord-btn');
-    btn.addEventListener('click', function(e) {
-        btn.classList.remove('clicked');
-        void btn.offsetWidth; // 리플레이를 위해 강제 리렌더
-        btn.classList.add('clicked');
+  const slides = document.querySelectorAll('.slide');
+  const prevBtn = document.querySelector('.prev');
+  const nextBtn = document.querySelector('.next');
+  let currentIndex = 0;
+  let slideInterval = setInterval(nextSlide, 7000); // 7초
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
     });
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
+  }
+
+  nextBtn.addEventListener('click', () => {
+    nextSlide();
+    resetInterval();
+  });
+
+  prevBtn.addEventListener('click', () => {
+    prevSlide();
+    resetInterval();
+  });
+
+  function resetInterval() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(nextSlide, 7000);
+  }
+
+  // 디스코드 버튼 클릭 애니메이션 (선택사항)
+  const discordBtn = document.querySelector('.discord-btn');
+  discordBtn.addEventListener('click', () => {
+    discordBtn.classList.remove('clicked');
+    void discordBtn.offsetWidth; // 강제 리플레이
+    discordBtn.classList.add('clicked');
+  });
 </script>
 
 </body>
 </html>
+
+
 
