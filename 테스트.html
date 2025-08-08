@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>[STOP] 우리들 클랜 - 배경 슬라이드</title>
+<title>[STOP] 우리들 클랜 - 슬라이드 + 사이드 메뉴 + 규칙 모달</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap');
 
@@ -28,8 +28,163 @@
     font-weight: 700;
     letter-spacing: 1px;
     box-shadow: 0 0 10px rgba(255,215,0,0.8);
-    z-index: 10;
+    z-index: 20;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 삼선 메뉴 버튼 - 노란 배너 안에서 오른쪽 세로 중앙, 정사각형 크기 */
+  #menuToggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background: transparent;
+  }
+  #menuToggle div, #menuToggle div::before, #menuToggle div::after {
+    background: #555; /* 더 진한 회색으로 변경 */
+    height: 4px;
+    width: 28px;
+    border-radius: 3px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  #menuToggle div::before,
+  #menuToggle div::after {
+    content: "";
+    position: absolute;
+    width: 28px;
+    height: 4px;
+    background: #555; /* 더 진한 회색 */
+    border-radius: 3px;
+    left: 0;
+    transition: all 0.3s ease;
+  }
+  #menuToggle div::before {
+    top: -10px;
+  }
+  #menuToggle div::after {
+    top: 10px;
+  }
+
+  /* 메뉴가 열렸을 때 X 모양 변환 */
+  #menuToggle.open div {
+    background: transparent;
+  }
+  #menuToggle.open div::before {
+    transform: rotate(45deg);
+    top: 0;
+    background: #FFD700; /* 노란색으로 변환해 더 잘 보이게 */
+  }
+  #menuToggle.open div::after {
+    transform: rotate(-45deg);
+    top: 0;
+    background: #FFD700; /* 노란색으로 변환해 더 잘 보이게 */
+  }
+
+  /* 사이드 메뉴 */
+  #sideMenu {
+    position: fixed;
+    top: 0; right: -280px;
+    width: 280px;
+    height: 100vh;
+    background: #333;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.7);
+    color: white;
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #sideMenu.active {
+    right: 0;
+  }
+
+  #sideMenu h3 {
+    color: #FFD700;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .menu-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 토글 스타일 */
+  .toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .toggle-label {
+    font-weight: 600;
+  }
+  .toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 24px;
+  }
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #888;
+    border-radius: 12px;
+    top: 0; left: 0; right: 0; bottom: 0;
+    transition: 0.4s;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+  input:checked + .slider {
+    background-color: #5865F2;
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  /* 링크 스타일 */
+  .menu-link {
+    background: linear-gradient(90deg, #5865F2, #4752C4);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(88, 101, 242, 0.7);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.3s ease;
+  }
+  .menu-link:hover {
+    background: #5865F2;
+    box-shadow: 0 0 20px rgba(88, 101, 242, 1);
   }
 
   /* 슬라이드 컨테이너 */
@@ -38,6 +193,7 @@
     width: 100%;
     height: 100vh;
     overflow: hidden;
+    user-select: none;
   }
 
   /* 슬라이드 각 배경 */
@@ -47,7 +203,7 @@
     height: 100%;
     background-position: center;
     background-size: cover;
-    filter: brightness(0.6); /* 흐림 */
+    filter: brightness(0.6);
     opacity: 0;
     transition: opacity 1s ease-in-out;
     z-index: 0;
@@ -83,14 +239,14 @@
   .logo-text {
     font-size: 2rem;
     color: white;
-    padding: 5px 8px; /* 좌우 패딩 줄임 */
+    padding: 5px 8px;
     border: 2px solid white;
     border-radius: 6px;
     margin-bottom: 20px;
     letter-spacing: 2px;
     text-shadow: 0 0 5px rgba(255,255,255,0.8);
     font-weight: 700;
-    display: inline-block; /* 추가 */
+    display: inline-block;
   }
 
   h1 {
@@ -124,6 +280,7 @@
     margin-top: 30px;
     overflow: hidden;
     font-weight: 700;
+    position: relative;
   }
   .discord-btn:hover {
     transform: scale(1.08);
@@ -203,17 +360,167 @@
     border-top: 1px solid #222;
     font-weight: 400;
   }
+
+  /* 규칙 모달창 배경 */
+  #rulesModal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+  #rulesModal.active {
+    display: flex;
+  }
+
+  /* 모달창 내용 */
+  #rulesModal .modal-content {
+    background: #222;
+    border-radius: 10px;
+    padding: 25px 30px;
+    max-width: 500px;
+    width: 90%;
+    color: #ddd;
+    box-shadow: 0 0 15px rgba(255,215,0,0.7);
+    position: relative;
+  }
+
+  #rulesModal h3 {
+    color: #FFD700;
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  #rulesModal ol {
+    list-style-position: inside;
+    line-height: 1.5;
+    font-size: 1rem;
+  }
+  #rulesModal ol li {
+    margin-bottom: 12px;
+  }
+
+  /* 닫기 버튼 */
+  #rulesModal .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    color: #FFD700;
+    cursor: pointer;
+    font-weight: 700;
+    transition: color 0.3s ease;
+  }
+  #rulesModal .close-btn:hover {
+    color: white;
+  }
+
+  /* 규칙 버튼 스타일 */
+  #rulesBtn {
+    background: linear-gradient(90deg, #5865F2, #4752C4);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    text-align: center;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(88, 101, 242, 0.7);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.3s ease;
+    border: none;
+    font-size: 1rem;
+  }
+  #rulesBtn:hover {
+    background: #5865F2;
+    box-shadow: 0 0 20px rgba(88, 101, 242, 1);
+  }
 </style>
 </head>
 <body>
 
 <!-- 상단 배너 -->
-<div class="top-banner">
+<div class="top-banner" role="banner">
   🎯 배린이도 환영! 즐겁게 치킨 먹는 [STOP] 우리들 클랜 🎯
+  <!-- 삼선 메뉴 버튼 - 배너 오른쪽 세로 중앙, 정사각형, 클릭 시 X 모양으로 변함 -->
+  <div id="menuToggle" aria-label="메뉴 열기" role="button" tabindex="0" aria-expanded="false" aria-controls="sideMenu">
+    <div></div>
+  </div>
+</div>
+
+<!-- 사이드 메뉴 -->
+<div id="sideMenu" aria-hidden="true" role="region" aria-label="설정 메뉴">
+  <div class="menu-section">
+    <h3>배경 ON/OFF</h3>
+    <label class="toggle-container" for="bgToggle">
+      <span class="toggle-label">배경 켜기</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="bgToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </label>
+  </div>
+
+  <div class="menu-section">
+    <h3>자동 슬라이드</h3>
+    <label class="toggle-container" for="autoSlideToggle">
+      <span class="toggle-label">자동 전환 켜기</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="autoSlideToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </label>
+  </div>
+
+  <div class="menu-section">
+    <h3>서버 디스코드</h3>
+    <a href="https://discord.gg/ppQY5AtZrs" target="_blank" class="menu-link" rel="noopener noreferrer">디스코드 참여하기</a>
+  </div>
+
+  <div class="menu-section">
+    <h3>클랜 규칙</h3>
+    <button id="rulesBtn" type="button" aria-haspopup="dialog" aria-controls="rulesModal">규칙 보기</button>
+  </div>
+
+  <div class="menu-section">
+    <button id="closeMenuBtn" type="button" style="
+      margin-top: auto;
+      background: #555;
+      color: #ddd;
+      border: none;
+      padding: 10px 0;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+    ">메뉴 닫기</button>
+  </div>
+</div>
+
+<!-- 규칙 모달 -->
+<div id="rulesModal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle" tabindex="-1">
+  <div class="modal-content">
+    <button class="close-btn" aria-label="모달 닫기">&times;</button>
+    <h3 id="rulesTitle">클랜 규칙</h3>
+    <ol>
+      <li>초보든 고수든 매너 하나만 챙겨오면 되는 즐겜 서버입니다.<br>(그래도 치킨은 못 참죠! &gt;~&lt;)</li>
+      <li>배린이분들은 협동을 잘 해주시고,<br>실력자분들은 답답해도 짜증보다 너그럽게 알려주세요.<br>(배린이 친구들을 키워가는 기쁨을 느껴보아요~)</li>
+      <li>팀워크 게임이니까 다 같이 즐겁게 소통해주세요.<br>(지나친 훈수나 이기적인 운영은 힘들어요ㅠ)</li>
+      <li>스쿼드 자리는 선착순이며, 빈자리가 있으면 누구든 편하게 들어오시면 됩니다.<br>(여기 다 친해지려고 노력하는 샤이한 사람들뿐이니 부담 갖지 말고 편히 오세요♡)</li>
+      <li>궁금한 사항은 언제든지 짱구들(관리자)에게 편하게 문의해주세요!</li>
+    </ol>
+  </div>
 </div>
 
 <!-- 슬라이드 컨테이너 -->
-<div class="slideshow">
+<div class="slideshow" id="slideshow" aria-live="polite" aria-label="배경 슬라이드">
   <div class="slide active" style="background-image: url('https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20250708/KO0YfZ0l.png');"></div>
   <div class="slide" style="background-image: url('https://i.imgur.com/iIOgyyn.jpeg');"></div>
   <div class="slide" style="background-image: url('https://i.imgur.com/oVXI8xS.jpeg');"></div>
@@ -221,25 +528,28 @@
   <div class="slide" style="background-image: url('https://i.imgur.com/I4izUqn.jpeg');"></div>
 
   <!-- 좌우 화살표 -->
-  <div class="arrow prev">&#10094;</div>
-  <div class="arrow next">&#10095;</div>
+  <div class="arrow prev" role="button" tabindex="0" aria-label="이전 배경">&#10094;</div>
+  <div class="arrow next" role="button" tabindex="0" aria-label="다음 배경">&#10095;</div>
 
-  <!-- 텍스트 내용 -->
-  <div class="header-content">
+  <!-- 텍스트 컨텐츠 (헤더) -->
+  <div class="header-content" role="banner">
     <div class="clan-tag">[STOP]</div>
     <div class="logo-text">CANTSTOP</div>
     <h1>우리들 클랜</h1>
-    <p>빡겜보단 즐겜! 초보부터 고수까지 누구나 함께하는 PUBG 클랜.<br>함께 웃고, 함께 싸우며, 치킨의 기쁨을 나누는 곳입니다!</p>
-    <a href="https://discord.gg/ppQY5AtZrs" class="discord-btn" target="_blank">디스코드 참여하기</a>
+    <p>
+      빡겜보단 즐겜! 초보부터 고수까지 누구나 함께하는 PUBG 클랜.<br />
+      함께 웃고, 함께 싸우며, 치킨의 기쁨을 나누는 곳입니다!
+    </p>
+    <a href="https://discord.gg/ppQY5AtZrs" class="discord-btn" target="_blank" rel="noopener noreferrer" role="link" tabindex="0">디스코드 참여하기</a>
   </div>
 </div>
 
 <!-- 정보 섹션 -->
-<div class="info">
+<div class="info" role="main">
   <h2>우리들 클랜 소개</h2>
   <p>
-    [STOP] 우리들은 배틀그라운드 실력보다 즐기는 마음을 더 소중히 생각합니다.<br>
-    초보자도, 오랜 유저도 모두가 함께 웃으며 즐길 수 있는 분위기를 만들고 있습니다.<br>
+    [STOP] 우리들은 배틀그라운드 실력보다 즐기는 마음을 더 소중히 생각합니다.<br />
+    초보자도, 오랜 유저도 모두가 함께 웃으며 즐길 수 있는 분위기를 만들고 있습니다.<br />
     매일 치킨을 향한 가벼운 발걸음, 함께 하실래요?
   </p>
 </div>
@@ -250,11 +560,66 @@
 </footer>
 
 <script>
+  // 삼선 메뉴 토글 & X 버튼 토글
+  const menuToggle = document.getElementById('menuToggle');
+  const sideMenu = document.getElementById('sideMenu');
+  const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+  function toggleMenu() {
+    const isOpen = menuToggle.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen.toString());
+    sideMenu.classList.toggle('active');
+    sideMenu.setAttribute('aria-hidden', (!isOpen).toString());
+  }
+
+  menuToggle.addEventListener('click', toggleMenu);
+  menuToggle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleMenu();
+    }
+  });
+
+  // 사이드 메뉴 닫기 버튼
+  closeMenuBtn.addEventListener('click', () => {
+    menuToggle.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    sideMenu.classList.remove('active');
+    sideMenu.setAttribute('aria-hidden', 'true');
+    menuToggle.focus();
+  });
+
+  // 규칙 모달 관련
+  const rulesBtn = document.getElementById('rulesBtn');
+  const rulesModal = document.getElementById('rulesModal');
+  const modalCloseBtn = rulesModal.querySelector('.close-btn');
+
+  rulesBtn.addEventListener('click', () => {
+    rulesModal.classList.add('active');
+    rulesModal.focus();
+  });
+  modalCloseBtn.addEventListener('click', () => {
+    rulesModal.classList.remove('active');
+    rulesBtn.focus();
+  });
+
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && rulesModal.classList.contains('active')) {
+      rulesModal.classList.remove('active');
+      rulesBtn.focus();
+    }
+  });
+
+  // 슬라이드 기능
   const slides = document.querySelectorAll('.slide');
-  const prevBtn = document.querySelector('.prev');
   const nextBtn = document.querySelector('.next');
+  const prevBtn = document.querySelector('.prev');
+  const bgToggle = document.getElementById('bgToggle');
+  const autoSlideToggle = document.getElementById('autoSlideToggle');
+
   let currentIndex = 0;
-  let slideInterval = setInterval(nextSlide, 7000); // 7초
+  let slideInterval;
+  let autoSlideOn = true;
 
   function showSlide(index) {
     slides.forEach((slide, i) => {
@@ -266,38 +631,74 @@
     currentIndex = (currentIndex + 1) % slides.length;
     showSlide(currentIndex);
   }
-
   function prevSlide() {
     currentIndex = (currentIndex - 1 + slides.length) % slides.length;
     showSlide(currentIndex);
   }
 
-  nextBtn.addEventListener('click', () => {
-    nextSlide();
-    resetInterval();
-  });
-
-  prevBtn.addEventListener('click', () => {
-    prevSlide();
-    resetInterval();
-  });
-
-  function resetInterval() {
+  function startSlideInterval() {
+    if (autoSlideOn) {
+      slideInterval = setInterval(nextSlide, 7000);
+    }
+  }
+  function stopSlideInterval() {
     clearInterval(slideInterval);
-    slideInterval = setInterval(nextSlide, 7000);
   }
 
-  // 디스코드 버튼 클릭 애니메이션 (선택사항)
-  const discordBtn = document.querySelector('.discord-btn');
-  discordBtn.addEventListener('click', () => {
-    discordBtn.classList.remove('clicked');
-    void discordBtn.offsetWidth; // 강제 리플레이
-    discordBtn.classList.add('clicked');
+  nextBtn.addEventListener('click', () => {
+    nextSlide();
+    if (autoSlideOn) {
+      stopSlideInterval();
+      startSlideInterval();
+    }
   });
+  prevBtn.addEventListener('click', () => {
+    prevSlide();
+    if (autoSlideOn) {
+      stopSlideInterval();
+      startSlideInterval();
+    }
+  });
+  nextBtn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      nextBtn.click();
+    }
+  });
+  prevBtn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      prevBtn.click();
+    }
+  });
+
+  // 배경 ON/OFF 토글
+  bgToggle.addEventListener('change', () => {
+    if (bgToggle.checked) {
+      slides.forEach(slide => slide.style.display = '');
+      document.body.style.backgroundColor = '#000';
+    } else {
+      slides.forEach(slide => slide.style.display = 'none');
+      document.body.style.backgroundColor = '#000';
+    }
+  });
+
+  // 자동 슬라이드 토글
+  autoSlideToggle.addEventListener('change', () => {
+    autoSlideOn = autoSlideToggle.checked;
+    if (autoSlideOn) {
+      startSlideInterval();
+    } else {
+      stopSlideInterval();
+    }
+  });
+
+  // 초기 설정
+  showSlide(currentIndex);
+  startSlideInterval();
+  sideMenu.setAttribute('aria-hidden', 'true');
+  menuToggle.setAttribute('aria-expanded', 'false');
 </script>
 
 </body>
 </html>
-
-
-
